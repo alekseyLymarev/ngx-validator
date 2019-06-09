@@ -1,27 +1,56 @@
 # NgLibraries
+The library allows to get rid of the excess code at validation of reactive forms. 
+For example default validation method looks as follow:
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.6.
+Angular component template:
+```angular2html
+<form [formGroup]="profileForm">
+  <label>
+    First Name:
+    <input type="text" formControlName="firstName">
+    <div *ngIf="form.get('firstName').invalid && form.get('firstName').errors.required">Field is required</div>
+    <div *ngIf="form.get('firstName').invalid && form.get('firstName').errors.minLength">
+      Min length of value 8. Actual: {{form.get('firstName').errors.minLength.actualLength}}
+    </div>
+  </label>
+  <label>
+    Last Name:
+    <input type="text" formControlName="lastName">
+    <div *ngIf="form.get('lastName').invalid && form.get('lastName').errors.required">Field is required</div>
+    <div *ngIf="form.get('lastName').invalid && form.get('lastName').errors.minLength">
+      Min length of value 8. Actual: {{form.get('lastName').errors.minLength.actualLength}}
+    </div>
+  </label>
+</form>
+```
 
-## Development server
+Angular component code:
+```typescript
+@Component({
+  selector: 'app-profile-editor',
+  templateUrl: './profile-editor.component.html',
+  styleUrls: ['./profile-editor.component.css']
+})
+export class ProfileEditorComponent {
+  profileForm = new FormGroup({
+    firstName: new FormControl('', [Validators.required, Validators.minLength(8)]),
+    lastName: new FormControl('', [Validators.required, Validators.minLength(8)]),
+  });
+}
+```
+ Using this library you can simplify this code:
+ ```angular2html
+ <form [formGroup]="form" autocomplete="off">
+  <div ngxValidatable>
+    <input type="text" formControlName="firstName"/>
+    <div *ngxValidator="'required'">Field is required</div>
+    <div *ngxValidator="'minLength';let params = params">Min length of value 8. Actual: {{params.actualLength}}</div>
+  </div>
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+  <div ngxValidatable>
+    <input type="text" formControlName="lastName"/>
+    <div *ngxValidator="'required'">Field is required</div>
+    <div *ngxValidator="'minLength';let params = params">Min length of value 8. Actual: {{params.actualLength}}</div>  
+  </div>
+</form>
+ ```
