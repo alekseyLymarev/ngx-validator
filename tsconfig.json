@@ -16,6 +16,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "ngx-validate-helper": [
+        "dist/ngx-validate-helper"
+      ],
+      "ngx-validate-helper/*": [
+        "dist/ngx-validate-helper/*"
+      ]
+    }
   }
 }

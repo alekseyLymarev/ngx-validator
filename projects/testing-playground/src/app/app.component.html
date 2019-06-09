@@ -1,0 +1,32 @@
+<form [formGroup]="form" autocomplete="off">
+  <div ngxValidatable>
+    <input type="text" formControlName="email" />
+    <div *ngxValidator="'required'">Вы не ввели адрес электронной почты</div>
+    <div *ngxValidator="'email'">Вы ввели не корректный адрес электронной почты</div>
+  </div>
+
+  <div ngxValidatable>
+    <input type="text" formControlName="password" />
+    <div *ngxValidator="'required'">Вы не ввели пароль</div>
+    <div *ngxValidator="'minLength';let params = params">Минимальная длинна пароля 8 символов. Вы ввели {{params.actualLength}}</div>
+    <div *ngxValidator="'maxLength';let params = params">Максимальная длинна пароля 16 символов. Вы ввели {{params.actualLength}}</div>
+  </div>
+</form>
+
+<form [formGroup]="form" autocomplete="off">
+
+  <mat-form-field ngxValidatable appearance="outline">
+    <mat-label>Электронная почта</mat-label>
+    <input type="text" matInput formControlName="email" />
+    <mat-error *ngxValidator="'required'">Вы не ввели адрес электронной почты</mat-error>
+    <mat-error *ngxValidator="'email'">Вы ввели не корректный адрес электронной почты</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Пароль</mat-label>
+    <input type="text" matInput formControlName="password" />
+    <mat-error  *ngxValidator="'required'">Вы не ввели пароль</mat-error>
+    <mat-error *ngxValidator="'minLength';let params = params">Минимальная длинна пароля 8 символов. Вы ввели {{params.actualLength}}</mat-error>
+    <mat-error *ngxValidator="'maxLength';let params = params">Максимальная длинна пароля 16 символов. Вы ввели {{params.actualLength}}</mat-error>
+  </mat-form-field>
+</form>
